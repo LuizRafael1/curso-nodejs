@@ -30,7 +30,7 @@ res.end(`{"mensagem": "resposta não encontrada."}`);
     
 const PORT = 3000;
 
-//Configurando para escutar requisições na porta 3000
+//Configurando para escutar requisições na porta 3000 e chamando callBack
 server.listen(PORT,() =>{
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 
