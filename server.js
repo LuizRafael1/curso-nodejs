@@ -1,9 +1,8 @@
 import http from "http";
 
-/* 
-request = Solicita ação,
-response = Resposta do servidor para cliente
-*/
+const database = {
+    produtos: ["Samsumg A15","Playstation 8", "Gta 6"]
+};
 
 const server = http.createServer((req,res) => { 
     res.writeHead(200, {"Content-type": "application/json"});
