@@ -25,9 +25,11 @@ const server = http.createServer((req,res) => {
     console.log(req.method,new Date(Date.now()).toLocaleTimeString(), req.url);
 
     if (method === "GET"){
+        //GET /api/produtos retorna lista de produtos
         if (url === "/api/produtos") {
            return res.end(JSON.stringify({produtos: database.produtos}))
         }
+         //GET /api/carros retorna lista de carros
         else if(url === "/api/carros"){
             return res.end(JSON.stringify({carros:database.carros}))
         };
