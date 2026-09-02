@@ -15,31 +15,31 @@ const database = {
 
 //Criando servidor http
 const server = http.createServer((req, res) => {
+    //Headers
+    let statusCode = 200;
+    let contentType = "application/json";
 
+    //Response body
+    let responseBody = {mensagem:"Rota não encontrada"};
+    
     const { method, url } = req    //OR  const method = req.method, const url = req.url
-
-    //Define o tipo de resposta
-    res.writeHead(200, { "Content-type": "application/json" });
-
-    //fazendo log de dados da requisição
-    console.log(req.method, new Date(Date.now()).toLocaleTimeString(), req.url);
-
+    
     if (method === "GET") {
         //GET /api/produtos retorna lista de produtos
         if (url === "/api/produtos") {
-            return res.end(JSON.stringify({ produtos: database.produtos }))
+            responseBody = { produtos: database.produtos }
         }
         //GET /api/carros retorna lista de carros
         else if (url === "/api/carros") {
-            return res.end(JSON.stringify({ carros: database.carros }))
+            responseBody = { carros: database.carros }
         }
         else if (url.startsWith("/api/carros/")) {
             const id = Number(url.split("/")[3])
             // percorre os elementos com o find até achar o carro cujo id seja compatível com o id da URL
             const carro = database.carros.find((c) => c.id === id);
-
+            
             if (carro) {
-                return res.end(JSON.stringify({ carro }))
+                responseBody = { carro }
             }
             else {
                 return res.end(
@@ -50,7 +50,8 @@ const server = http.createServer((req, res) => {
         }
     };
 
-    res.end(`{"mensagem": "resposta não encontrada."}`);
+    res.writeHead(statusCode, { "Content-type":contentType });
+    res.end(JSON.stringify(responseBody));
 
 });
 
@@ -59,5 +60,5 @@ const PORT = 3000;
 //Configurando para escutar requisições na porta 3000 e chamando callBack
 server.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
-
+    
 });
