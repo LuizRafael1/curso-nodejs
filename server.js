@@ -42,13 +42,18 @@ const server = http.createServer((req, res) => {
                 responseBody = { carro }
             }
             else {
-                return res.end(
-                    JSON.stringify({ mensagem: `Carro com o id ${id} não existe` }
-                    )
-                );
+                statusCode = 404
+                responseBody = { mensagem: `Carro com o id ${id} não existe` }
             }
         }
-    };
+    }
+    if(responseBody?.mensagem === "Rota não encontrada"){
+        statusCode = 404
+    }
+    
+  
+    //fazendo log de dados da requisição
+    console.log(req.method, new Date(Date.now()).toLocaleTimeString(), req.url, statusCode);
 
     res.writeHead(statusCode, { "Content-type":contentType });
     res.end(JSON.stringify(responseBody));
