@@ -46,18 +46,43 @@ const server = http.createServer((req, res) => {
                 responseBody = { mensagem: `Carro com o id ${id} não existe` }
             }
         }
+    }else if (method === "POST"){
+        if(url === "/api/carros"){
+            let body = "";
+            req.on("data", (chunk)=>{
+                body += chunk.toString()
+            });
+            req.on("end", ()=>{
+                const data = JSON.parse(body)
+                data.id = database.carros.length +1
+                database.carros.push(data);
+                responseBody = {carro:data};
+
+                statusCode = 201
+
+                res.writeHead(statusCode, { "Content-type":contentType });
+                res.end(JSON.stringify(responseBody));
+            });
+
+        }
+        else{
+            statusCode = 404
+            responseBody = {mensagem: "Rota não encontrada"}
+            res.writeHead(statusCode, { "Content-type":contentType });
+            res.end(JSON.stringify(responseBody));
+        }
     }
     if(responseBody?.mensagem === "Rota não encontrada"){
         statusCode = 404
+    }
+    if (!["POST","PUT","PATCH"].includes(method)){
+        res.writeHead(statusCode, { "Content-type":contentType });
+        res.end(JSON.stringify(responseBody));
     }
     
   
     //fazendo log de dados da requisição
     console.log(req.method, new Date(Date.now()).toLocaleTimeString(), req.url, statusCode);
-
-    res.writeHead(statusCode, { "Content-type":contentType });
-    res.end(JSON.stringify(responseBody));
-
 });
 
 const PORT = 3000;
