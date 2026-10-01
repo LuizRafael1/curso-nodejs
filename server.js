@@ -87,6 +87,47 @@ const server = http.createServer((req, res) => {
             res.end(JSON.stringify(responseBody));
         }
     }
+    else if(method === "PATCH"){
+        if(url.startsWith("/api/carros/")){
+            const id = extrairID(url)
+            let carro = findById(id)
+
+            if (carro) {
+                 let body = "";
+
+                req.on("data", (chunk)=>{
+                    body += chunk.toString()
+                });
+                
+                req.on("end", ()=>{
+                    const data = JSON.parse(body)
+                    carro = {...carro, ...data}
+                    database.carros = database.carros.map(c => c.id === id ? {...c, ...carro} : c)
+
+                    responseBody = {carro};
+                    statusCode = 200
+
+                    res.writeHead(statusCode, { "Content-type":contentType });
+                    res.end(JSON.stringify(responseBody));
+                })
+            }
+            else {
+                statusCode = 404
+                responseBody = { mensagem: `Carro com o id ${id} não existe` }
+
+                 res.writeHead(statusCode, { "Content-type":contentType });
+                 res.end(JSON.stringify(responseBody));
+            }
+        }
+        else{
+            statusCode = 404
+            responseBody = { mensagem: `Rota não encontrada`}
+
+            res.writeHead(statusCode, {"Content-type":contentType});
+            res.end(JSON.stringify(responseBody));
+        }
+    }
+
     if(responseBody?.mensagem === "Rota não encontrada"){
         statusCode = 404
     }
