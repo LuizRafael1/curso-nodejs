@@ -13,6 +13,11 @@ const database = {
     ]
 };
 
+//helper function para extrair ID  
+function extrairID (url){
+    return Number(url.split("/")[3]);
+}
+
 //Criando servidor http
 const server = http.createServer((req, res) => {
     //Headers
