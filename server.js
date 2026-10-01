@@ -18,6 +18,11 @@ function extrairID (url){
     return Number(url.split("/")[3]);
 }
 
+//Helper function encontrar por ID
+function findById (id){
+    return database.carros.find(c => c.id === id);
+}
+
 //Criando servidor http
 const server = http.createServer((req, res) => {
     //Headers
@@ -51,12 +56,17 @@ const server = http.createServer((req, res) => {
                 responseBody = { mensagem: `Carro com o id ${id} não existe` }
             }
         }
-    }else if (method === "POST"){
+    }
+    //POST/api/carros - cria novo carro
+    else if (method === "POST"){
         if(url === "/api/carros"){
+
             let body = "";
+
             req.on("data", (chunk)=>{
                 body += chunk.toString()
             });
+            
             req.on("end", ()=>{
                 const data = JSON.parse(body)
                 data.id = database.carros.length +1
