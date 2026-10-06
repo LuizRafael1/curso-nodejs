@@ -126,6 +126,23 @@ const server = http.createServer((req, res) => {
             res.writeHead(statusCode, {"Content-type":contentType});
             res.end(JSON.stringify(responseBody));
         }
+    }else if (method === "DELETE"){
+        if(url.startsWith("/api/carros/")){
+            const id = extrairID(url)
+            const carro = findById(id)
+
+            if(carro){
+                database.carros = database.carros.filter(c => c.id !== id)
+                statusCode = 204;
+                responseBody  = null;
+            } else{
+
+                statusCode = 404
+                responseBody = { mensagem: `Carro com o id ${id} não existe` }
+            }
+        }else {
+            responseBody = {mensagem:"Rota não encontrada"}
+        }
     }
 
     if(responseBody?.mensagem === "Rota não encontrada"){
