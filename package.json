@@ -1,10 +1,12 @@
 {
-    "name":"my-first-api",
-    "version":"1.0.0",
-    "type":"module",
+    "name": "my-first-api",
+    "version": "1.0.0",
+    "type": "module",
     "scripts": {
-        "dev":"node server.mjs"
+        "dev": "node server.mjs"
     },
-    "description":"This is my first api with Uanela NodeJs course",
-    "dependencies": {}
+    "description": "This is my first api with Uanela NodeJs course",
+    "dependencies": {
+        "chalk": "^6.0.1"
+    }
 }
