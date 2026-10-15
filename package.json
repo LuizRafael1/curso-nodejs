@@ -1,0 +1,10 @@
+{
+    "name":"my-first-api",
+    "version":"1.0.0",
+    "type":"module",
+    "scripts": {
+        "dev":"node server.mjs"
+    },
+    "description":"This is my first api with Uanela NodeJs course",
+    "dependencies": {}
+}
