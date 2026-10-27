@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-        "dev": "node server.mjs"
+        "dev": "node src/server.mjs"
     },
     "description": "This is my first api with Uanela NodeJs course",
     "dependencies": {
