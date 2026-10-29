@@ -1,5 +1,9 @@
 import http from "http";
 import chalk from "chalk";
+import db from "./db/index.js";
+import dotenv from 'dotenv';
+
+dotenv.config()
 
 const database = {
     produtos: [
